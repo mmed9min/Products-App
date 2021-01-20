@@ -1,0 +1,23 @@
+.App {
+  text-align: center !important;
+}
+
+
+
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  color: black;
+}
+
+
+
+.products{
+  display: flex;
+  justify-content: center;
+  margin-left: 120px;
+}
