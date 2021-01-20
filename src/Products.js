@@ -15,17 +15,23 @@ var PRODUCTS = {
 export class Products extends Component{
     constructor(props){
         super(props);
+        this.handleFilter = this.handleFilter.bind(this);
         this.state = {
             filterText : '',
             inStockOnly :false,
             products :PRODUCTS
         }
     }
+
+    handleFilter = (filterInput) => this.setState(filterInput);
+
     render(){
         return(
             <div>
-                <Filters filterText={this.state.filterText}
-                inStockOnly={this.state.inStockOnly}>
+                <Filters
+                filterText={this.state.filterText}
+                inStockOnly={this.state.inStockOnly}
+                onFilter={this.handleFilter}>
                 </Filters>
 
                 <ProductsTable products = {this.state.products}
@@ -33,7 +39,7 @@ export class Products extends Component{
                 inStockOnly = {this.state.inStockOnly}>
                 </ProductsTable>
 
-                
+
                 <ProductForm />
             </div>
         )
