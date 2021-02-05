@@ -13,35 +13,55 @@ var PRODUCTS = {
 };
 
 export class Products extends Component{
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.handleFilter = this.handleFilter.bind(this);
         this.state = {
-            filterText : '',
-            inStockOnly :false,
-            products :PRODUCTS
+          filterText: '',
+          inStockOnly: false,
+          products: PRODUCTS
+        };
+    
+        this.handleFilter = this.handleFilter.bind(this);
+        this.handleDestroy = this.handleDestroy.bind(this);
+        this.saveProduct = this.saveProduct.bind(this);
+      }
+      handleFilter(filterInput) {
+        this.setState(filterInput);
+      }
+      saveProduct(product) {
+        if (!product.id) {
+          product.id = new Date().getTime();
         }
+        this.setState((prevState) => {
+          let products = prevState.products;
+          products[product.id] = product;
+          return { products };
+        });
+      }
+      handleDestroy(productId) {
+        this.setState((prevState) => {
+          let products = prevState.products;
+          delete products[productId];
+          return { products };
+        });
+      }
+      render() {
+        return (
+          <div>
+            <Filters
+              filterText={this.state.filterText}
+              inStockOnly={this.state.inStockOnly}
+              onFilter={this.handleFilter}
+            ></Filters>
+            <ProductsTable
+              products={this.state.products}
+              filterText={this.state.filterText}
+              inStockOnly={this.state.inStockOnly}
+              onDestroy={this.handleDestroy}
+            ></ProductsTable>
+            <ProductForm onSave={this.saveProduct} ></ProductForm>
+          </div>
+        );
+      }
     }
-
-    handleFilter = (filterInput) => this.setState(filterInput);
-
-    render(){
-        return(
-            <div>
-                <Filters
-                filterText={this.state.filterText}
-                inStockOnly={this.state.inStockOnly}
-                onFilter={this.handleFilter}>
-                </Filters>
-
-                <ProductsTable products = {this.state.products}
-                filterText={this.state.filterText}
-                inStockOnly = {this.state.inStockOnly}>
-                </ProductsTable>
-
-
-                <ProductForm />
-            </div>
-        )
-    }
-};
+    

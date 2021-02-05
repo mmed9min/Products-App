@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 
 export class Filters extends Component{
+    constructor(props){
+      super(props);
+      this.handleChange = this.handleChange.bind(this);
+    }
     handleChange(e) {
         const value = e.target[e.target.type === "checkbox" ? "checked" : "value"]
         const name = e.target.name;
